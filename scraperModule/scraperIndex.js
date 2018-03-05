@@ -13,6 +13,7 @@ var deleteFolderRecursive = function(path) {
 };
 
 var fs = require('fs');
+const cheerio = require('cheerio')
 function main() {
 
   // default path name to copy websites to

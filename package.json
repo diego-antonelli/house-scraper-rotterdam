@@ -6,6 +6,7 @@
   "author": "OriW",
   "engine": "node v6.4",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "express": "~4.6.1",
     "html-to-text": "^3.3.0",
     "nodemon": "^1.17.1",
