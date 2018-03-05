@@ -33,6 +33,7 @@ function main() {
 	var scrape = require('website-scraper');
 	var options = {
 		urls: ['https://rotterdamapartments.com/en/Rental-apartments'],
+    sources: [],
 		directory: defaultPathName,
 	};
 
