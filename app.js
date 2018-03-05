@@ -7,3 +7,7 @@ require(`./server/routes.js`)(app);						// routes
 
 app.listen(port);										// let the games begin!
 console.log(`Web server listening on port ${port}`);
+
+var scraper  = require('./scraperModule/scraperIndex')
+
+scraper.main();

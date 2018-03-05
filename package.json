@@ -1,13 +1,17 @@
 {
-  "name"         : "node-skeleton",
-  "version"      : "0.0.0",
-  "description"  : "NodeJs + express + angularJs skeleton.",
-  "main"         : "app.js",
-  "author"       : "OriW",
-  "engine"       : "node v6.4",
-  "dependencies" : {
-    "express"         : "~4.6.1",
-    "npm-watch"       : "^0.3.0"
+  "name": "node-skeleton",
+  "version": "0.0.0",
+  "description": "NodeJs + express + angularJs skeleton.",
+  "main": "app.js",
+  "author": "OriW",
+  "engine": "node v6.4",
+  "dependencies": {
+    "express": "~4.6.1",
+    "html-to-text": "^3.3.0",
+    "nodemon": "^1.17.1",
+    "npm-watch": "^0.3.0",
+    "rimraf": "^2.6.2",
+    "website-scraper": "^3.3.2"
   },
   "watch": {
     "start": "server/*.js"
