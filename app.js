@@ -10,4 +10,5 @@ console.log(`Web server listening on port ${port}`);
 
 var scraper  = require('./scraperModule/scraperIndex')
 
-scraper.main();
+// setInterval(scraper.main, 3000);
+scraper.main()

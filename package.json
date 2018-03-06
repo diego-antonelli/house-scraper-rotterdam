@@ -12,6 +12,7 @@
     "nodemon": "^1.17.1",
     "npm-watch": "^0.3.0",
     "rimraf": "^2.6.2",
+    "telegraf": "^3.19.0",
     "website-scraper": "^3.3.2"
   },
   "watch": {

@@ -1,26 +1,8 @@
-# Skeleton app with Node.js + express + angular
+## Todos and thoughts:
 
-## Requirements
-
-- [Node(v6.4) and npm](http://nodejs.org)
-
-## Installation
-
-1. `git clone git@github.com:forter/node-skeleton.git`
-2. `cd node-skeleton`
-3. `npm install`
-3. `npm start`
-4. Go to `http://localhost:3000`
-5. Enjoy life.
-
-## Usage
-
-Add routes to server in: `server/routes.js`
-
-Main angular module: `client/app.js`
-
-Main html file: `client/index.html`
-
-## Development
-
-Run `npm run watch` to watch all files in server directory
+- write an alarmer through telegram or whatever
+- make it interval
+- you have to create same piece of code for different urls
+- how to solve a problem where the websites are different and you have to write different code piece for each website, maybe get all the hrefs from website and check ?
+- maybe a json field would be better
+- currently it will ring if the first one is changed, so if they add 2 or more, you dont know. you just know there is new activity happening
