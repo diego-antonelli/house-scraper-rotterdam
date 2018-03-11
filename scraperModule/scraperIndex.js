@@ -30,7 +30,7 @@ var houselinks = {
   maashave: 'http://www.maashave.com/verhuur',
   homerent: 'https://www.homerent.nl/zoek-direct-uw-woning.html',
   indestad: 'https://www.indestad.nl/huurwoningen/',
-  oms: 'https://ooms.com/wonen/aanbod/kaart?sort-by=&virtuele-tour=&place=Rotterdam&min_price=0&max_price=1000&huur=huur&min_number_of_rooms=&max_number_of_rooms=&min_volume=&max_volume=#'
+  ooms: 'https://ooms.com/wonen/aanbod/lijst?sort-by=&virtuele-tour=&place=Rotterdam&min_price=0&max_price=1000&huur=huur&min_number_of_rooms=&max_number_of_rooms=&min_volume=&max_volume=#'
 }
 var getPathName = function(websiteName){
   var defaultPathName = './websiteSnaps/'
@@ -986,7 +986,7 @@ var ooms = function(){
     //get the html
     oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
 
-    oldFirstHouseLink = oldWebsiteHtml('.all-properties .button-container a').first().attr('href')
+    oldFirstHouseLink = oldWebsiteHtml('.items__overview .item--object--fw a').first().attr('href')
     // remove the folder since new data should be written
     deleteFolderRecursive(websitePathName);
   }
@@ -1005,11 +1005,11 @@ var ooms = function(){
 
   // with promise
   return scrape(options).then((result) => {
-
+    debugger;
 
     newWebsiteHtml = cheerio.load(result[0].text)
 
-    newFirstHouseLink = newWebsiteHtml('.all-properties .button-container a').first().attr('href')
+    newFirstHouseLink = newWebsiteHtml('.items__overview .item--object--fw a').first().attr('href')
 
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
@@ -1050,24 +1050,24 @@ function main() {
     ctx.telegram.sendMessage(ctx.message.chat.id, `Hello !!`)
   })
 
-  rdamapartments()
-  .then(benhousing)
-  .then(huurWoningen)
-  .then(verrarealestate)
-  .then(ideaalhousing)
-  .then(dopdop)
-  .then(rotterdamrent)
-  .then(OneTwoThreeWonen)
-  .then(perfectrent)
-  .then(deblooisvastgoed)
-  .then(valkvastgoed)
-  .then(houseSelect)
-  .then(amstelhousing)
-  .then(vhpn)
-  .then(maashave)
-  .then(homerent)
-  .then(indestad)
-
+  // rdamapartments()
+  // .then(benhousing)
+  // .then(huurWoningen)
+  // .then(verrarealestate)
+  // .then(ideaalhousing)
+  // .then(dopdop)
+  // .then(rotterdamrent)
+  // .then(OneTwoThreeWonen)
+  // .then(perfectrent)
+  // .then(deblooisvastgoed)
+  // .then(valkvastgoed)
+  // .then(houseSelect)
+  // .then(amstelhousing)
+  // .then(vhpn)
+  // .then(maashave)
+  // .then(homerent)
+  // .then(indestad)
+  ooms()
 
 }
 
