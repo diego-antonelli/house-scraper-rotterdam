@@ -11,6 +11,7 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
+var isProduction = true;
 
 var houselinks = {
   rdamapartments: 'https://rotterdamapartments.com/en/Rental-apartments',
@@ -30,7 +31,16 @@ var houselinks = {
   maashave: 'http://www.maashave.com/verhuur',
   homerent: 'https://www.homerent.nl/zoek-direct-uw-woning.html',
   indestad: 'https://www.indestad.nl/huurwoningen/',
-  ooms: 'https://ooms.com/wonen/aanbod/lijst?sort-by=&virtuele-tour=&place=Rotterdam&min_price=0&max_price=1000&huur=huur&min_number_of_rooms=&max_number_of_rooms=&min_volume=&max_volume=#'
+  ooms: 'https://ooms.com/wonen/aanbod/lijst?sort-by=&virtuele-tour=&place=Rotterdam&min_price=0&max_price=1000&huur=huur&min_number_of_rooms=&max_number_of_rooms=&min_volume=&max_volume=#',
+  kolpa: 'http://www.kolpa.nl/nl/aanbod?plaats=Rotterdam&straat=&opt1=huur&min_prijs=&max_prijs=1000',
+  vbo: 'https://www.vbo.nl/huurwoningen/rotterdam/0-1000/1+kamers/50+woonopp.html?p=1',
+  domica: 'https://www.domica.nl/huur/prijs-max-1000',
+  immobilia: 'https://www.immobilia.nl/nl/zoeken?koophuur=huur&plaats=Rotterdam&min_prijs=&max_prijs=1000&query=&p=1#',
+  lankhuijzen: 'https://www.lankhuijzen.nl/aanbod/woningaanbod/ROTTERDAM/-1000/huur/1+kamers/',
+  riva: 'https://www.rivarentals.nl/huurwoningen-rotterdam/?action=search&city=rotterdam&min-price=500&max-price=1000',
+  pararius: 'https://www.pararius.com/apartments/rotterdam/area-rotterdam-centrum/400-1000/45m2',
+  athomevastgoed: 'https://www.athomevastgoed.nl/woningaanbod/&plaats=Rotterdam&plaats_id=1759&prijs_tot=1000&sorteer=1',
+  korrektwonen: 'http://korrektwonen.nl/en/properties/?filter_contract_type=54&filter_contract_type=54&filter_sort_by=published&filter_order=DESC'
 }
 var getPathName = function(websiteName){
   var defaultPathName = './websiteSnaps/'
@@ -69,7 +79,10 @@ var rdamapartments = function (){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -118,7 +131,10 @@ var benhousing = function (callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -155,7 +171,7 @@ var huurWoningen = function(callback){
     sources: [],
     request: {
       headers: {
-        'User-Agent': 'ser-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'
       }
     },
     directory: websitePathName,
@@ -172,7 +188,10 @@ var huurWoningen = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.huurwoningen.nl"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -229,7 +248,10 @@ var verrarealestate = function (callback) {
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -285,7 +307,10 @@ var ideaalhousing = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.ideaalhousing.nl"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -341,7 +366,10 @@ var dopdop = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.dop-dop.com"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -397,7 +425,10 @@ var rotterdamrent = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.rotterdamrent.com"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -453,7 +484,10 @@ var OneTwoThreeWonen = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -510,7 +544,10 @@ var perfectrent = function(callback){
       newFirstHouseLink = newFirstHouseLink.slice(0,indexOfPlus) + newFirstHouseLink.slice((indexOfPlus+1),newFirstHouseLink.length)
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -566,7 +603,10 @@ var deblooisvastgoed = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -622,7 +662,10 @@ var valkvastgoed = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -678,7 +721,10 @@ var houseSelect = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.house-select.nl"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -734,7 +780,10 @@ var amstelhousing = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.amstelhousing.nl"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -790,7 +839,10 @@ var vhpn = function(callback){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: http://www.vhpn.nl/"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -846,7 +898,10 @@ var maashave = function(){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: http://www.maashave.com"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -902,7 +957,10 @@ var homerent = function(){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: https://www.homerent.nl"+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -958,7 +1016,10 @@ var indestad = function(){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
-      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -1014,7 +1075,546 @@ var ooms = function(){
     if (newFirstHouseLink !== oldFirstHouseLink) {
       let text = "There is a new link: "+ newFirstHouseLink
       console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
       // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var kolpa = function(){
+  var websiteName = 'kolpa'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.aanbod .grid_block .grid_caption_detail a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.kolpa],
+    sources: [],
+    request: {
+      headers: {
+
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.aanbod .grid_block .grid_caption_detail a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link: http://www.kolpa.nl"+ newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var vbo = function(){
+  var websiteName = 'vbo'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.objects .object-tiles a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.vbo],
+    sources: [],
+    request: {
+      headers: {
+
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.objects .object-tiles a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link: https://www.vbo.nl"+ newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var domica = function(){
+  var websiteName = 'domica'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.result-container .product-row .img-responsive').first().attr('src')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.domica],
+    sources: [],
+    request: {
+      headers: {
+
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.result-container .product-row .img-responsive').first().attr('src')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in https://www.domica.nl/huur/prijs-max-1000"
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var immobilia = function(){
+  var websiteName = 'immobilia'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.view-tiles a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.immobilia],
+    sources: [],
+    request: {
+      headers: {
+
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.view-tiles a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in https://www.immobilia.nl" + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var lankhuijzen = function(){
+  var websiteName = 'lankhuijzen'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.aanbodEntryLink').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.lankhuijzen],
+    sources: [],
+    request: {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+        'Connection': 'keep-alive'
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.aanbodEntryLink').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in https://www.lankhuijzen.nl" + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var riva = function(){
+  var websiteName = 'riva'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.house-overview-filtered-houses .house-overview-single-house a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.riva],
+    sources: [],
+    request: {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+        'Connection': 'keep-alive'
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.house-overview-filtered-houses .house-overview-single-house a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in https://www.rivarentals.nl" + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var pararius = function(){
+  var websiteName = 'pararius'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.search-results-list .property-list-item-container .details .cta a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.pararius],
+    sources: [],
+    request: {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+        'Connection': 'keep-alive'
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.search-results-list .property-list-item-container .details .cta a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in https://www.pararius.com" + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var athomevastgoed = function(){
+  var websiteName = 'athomevastgoed'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('#object_lines #pagina-1 .product__content--large .btn-alt--detail').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.athomevastgoed],
+    sources: [],
+    request: {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+        'Connection': 'keep-alive'
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('#object_lines #pagina-1 .product__content--large .btn-alt--detail').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in https://www.athomevastgoed.nl" + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+var korrektwonen = function(){
+  var websiteName = 'korrektwonen'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('.properties-rows .property .content a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.korrektwonen],
+    sources: [],
+    request: {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+        'Connection': 'keep-alive'
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('.properties-rows .property .content a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in " + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
     }
     else {
       text = 'No new links for ' + websiteName
@@ -1050,25 +1650,35 @@ function main() {
     ctx.telegram.sendMessage(ctx.message.chat.id, `Hello !!`)
   })
 
-  // rdamapartments()
-  // .then(benhousing)
-  // .then(huurWoningen)
-  // .then(verrarealestate)
-  // .then(ideaalhousing)
-  // .then(dopdop)
-  // .then(rotterdamrent)
-  // .then(OneTwoThreeWonen)
-  // .then(perfectrent)
-  // .then(deblooisvastgoed)
-  // .then(valkvastgoed)
-  // .then(houseSelect)
-  // .then(amstelhousing)
-  // .then(vhpn)
-  // .then(maashave)
-  // .then(homerent)
-  // .then(indestad)
-  ooms()
+  rdamapartments()
+  .then(benhousing)
+  .then(huurWoningen)
+  .then(verrarealestate)
+  .then(ideaalhousing)
+  .then(dopdop)
+  .then(rotterdamrent)
+  .then(OneTwoThreeWonen)
+  .then(perfectrent)
+  .then(deblooisvastgoed)
+  .then(valkvastgoed)
+  .then(houseSelect)
+  .then(amstelhousing)
+  .then(vhpn)
+  .then(maashave)
+  .then(homerent)
+  .then(indestad)
+  .then(ooms)
+  .then(kolpa)
+  .then(vbo)
+  .then(domica)
+  .then(immobilia)
+  .then(lankhuijzen)
+  .then(riva)
+  .then(pararius)
+  .then(athomevastgoed)
+  .then(korrektwonen)
 
+  // korrektwonen()
 }
 
 
