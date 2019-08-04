@@ -11,7 +11,7 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-var isProduction = true;
+var isProduction = false;
 
 var houselinks = {
   rdamapartments: 'https://rotterdamapartments.com/en/Rental-apartments',
@@ -34,13 +34,14 @@ var houselinks = {
   ooms: 'https://ooms.com/wonen/aanbod/lijst?sort-by=&virtuele-tour=&place=Rotterdam&min_price=0&max_price=1000&huur=huur&min_number_of_rooms=&max_number_of_rooms=&min_volume=&max_volume=#',
   kolpa: 'http://www.kolpa.nl/nl/aanbod?plaats=Rotterdam&straat=&opt1=huur&min_prijs=&max_prijs=1000',
   vbo: 'https://www.vbo.nl/huurwoningen/rotterdam/0-1000/1+kamers/50+woonopp.html?p=1',
-  domica: 'https://www.domica.nl/huur/prijs-max-1000',
+  domica: 'https://www.domica.nl/huur/prijs-max-1000/provincie-zuid-holland/rotterdam',
   immobilia: 'https://www.immobilia.nl/nl/zoeken?koophuur=huur&plaats=Rotterdam&min_prijs=&max_prijs=1000&query=&p=1#',
   lankhuijzen: 'https://www.lankhuijzen.nl/aanbod/woningaanbod/ROTTERDAM/-1000/huur/1+kamers/',
   riva: 'https://www.rivarentals.nl/huurwoningen-rotterdam/?action=search&city=rotterdam&min-price=500&max-price=1000',
   pararius: 'https://www.pararius.com/apartments/rotterdam/area-rotterdam-centrum/400-1000/45m2',
   athomevastgoed: 'https://www.athomevastgoed.nl/woningaanbod/&plaats=Rotterdam&plaats_id=1759&prijs_tot=1000&sorteer=1',
-  korrektwonen: 'http://korrektwonen.nl/en/properties/?filter_contract_type=54&filter_contract_type=54&filter_sort_by=published&filter_order=DESC'
+  korrektwonen: 'http://korrektwonen.nl/en/properties/?filter_contract_type=54&filter_contract_type=54&filter_sort_by=published&filter_order=DESC',
+  rotsvast: 'https://www.rotsvast.nl/en/property-listings/?type=2&city=Rotterdam&maximumPrice[2]=1000'
 }
 var getPathName = function(websiteName){
   var defaultPathName = './websiteSnaps/'
@@ -1629,6 +1630,66 @@ var korrektwonen = function(){
   })
 }
 
+var rotsvast = function(){
+  var websiteName = 'rotsvast'
+  var websitePathName = getPathName(websiteName)
+  var oldWebsiteHtml = ''
+  var oldFirstHouseLink = ''
+  var newWebsiteHtml = ''
+  var newFirstHouseLink = ''
+  var text = ''
+  // copy the old website contents if its exists
+  if (fs.existsSync(websitePathName+'index.html')) {
+    //get the html
+    oldWebsiteHtml = cheerio.load(fs.readFileSync(websitePathName+'index.html', 'utf8'));
+
+    oldFirstHouseLink = oldWebsiteHtml('#main .residence-gallery-wrapper .residence-gallery a').first().attr('href')
+    // remove the folder since new data should be written
+    deleteFolderRecursive(websitePathName);
+  }
+
+
+  options = {
+    urls: [houselinks.rotsvast],
+    sources: [],
+    request: {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
+        'Connection': 'keep-alive'
+      }
+    },
+    directory: websitePathName,
+  };
+
+  // with promise
+  return scrape(options).then((result) => {
+    debugger;
+
+    newWebsiteHtml = cheerio.load(result[0].text)
+
+    newFirstHouseLink = newWebsiteHtml('#main .residence-gallery-wrapper .residence-gallery a').first().attr('href')
+
+    if (newFirstHouseLink !== oldFirstHouseLink) {
+      let text = "There is a new link in " + newFirstHouseLink
+      console.log(text);
+      if(isProduction){
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+        request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=578223398&text='+ encodeURI(text), function (error, response, body) {});
+      }
+    }
+    else {
+      text = 'No new links for ' + websiteName
+      console.log(text);
+      // request('https://api.telegram.org/bot540567822:AAEQjj5l_kIhsfQjMIWopg-Loly0ZpIsrE0/sendMessage?chat_id=503848682&text='+ encodeURI(text), function (error, response, body) {});
+
+    }
+    //check if the links match, otherwise alarm !!
+    // console.log(result)
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
 var fs = require('fs');
 const cheerio = require('cheerio')
 const Telegraf = require('telegraf')
@@ -1677,8 +1738,9 @@ function main() {
   .then(pararius)
   .then(athomevastgoed)
   .then(korrektwonen)
+  .then(rotsvast)
 
-  // korrektwonen()
+  rotsvast()
 }
 
 
