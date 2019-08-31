@@ -6,7 +6,7 @@ var intervalThir = 1000 * 60 * 8
 
 var currentInterval = intervalFirst;
 
-if (scraper.isProduction){
+if (false){
     setInterval(function(){
         scraper.main();
         switch (currentInterval) {
