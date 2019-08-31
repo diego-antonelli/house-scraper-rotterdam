@@ -11,7 +11,7 @@ var deleteFolderRecursive = function(path) {
     fs.rmdirSync(path);
   }
 };
-var isProduction = false;
+var isProduction = true;
 
 var houselinks = {
   // Needs extra price filtering
@@ -1737,5 +1737,6 @@ function main() {
 
 
 module.exports ={
-	main: main
+	main: main,
+    isProduction
 }
