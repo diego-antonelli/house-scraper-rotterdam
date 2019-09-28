@@ -1,25 +1,22 @@
 {
-  "name": "node-skeleton",
-  "version": "0.0.0",
-  "description": "NodeJs + express + angularJs skeleton.",
-  "main": "app.js",
-  "author": "OriW",
-  "engine": "node v6.4",
+  "name": "find-my-place",
+  "version": "1.0.0",
+  "description": "App to scrap places to live",
+  "author": "Diego & Mehmetino",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.13",
+    "@types/website-scraper": "^1.2.4",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "express": "~4.6.1",
     "html-to-text": "^3.3.0",
-    "nodemon": "^1.17.1",
     "npm-watch": "^0.3.0",
-    "rimraf": "^2.6.2",
-    "telegraf": "^3.19.0",
     "website-scraper": "^3.3.2"
-  },
-  "watch": {
-    "start": "server/*.js"
   },
   "scripts": {
     "start": "node app.js",
-    "watch": "npm-watch"
+    "test": "ts-node --project tsconfig.json tests/index.spec.ts"
   }
 }
