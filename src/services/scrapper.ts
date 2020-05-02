@@ -87,7 +87,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
                                         address,
                                         city: CITY,
                                         neighborhood,
-                                        price,
+                                        price: newPrice,
                                         url: normalizeUrl(url, WEBSITE_CONFIG) || ""
                                     });
                                 }

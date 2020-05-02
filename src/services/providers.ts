@@ -361,7 +361,7 @@ export interface Result {
     title?: string;
     neighborhood?: string;
     address?: string;
-    price?: string;
+    price?: number;
     city?: string;
     url: string;
 }
