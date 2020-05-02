@@ -13,7 +13,7 @@ import {Database} from "./database";
                 await obj.forEach(async apartment => {
                     const data = await Database.findOne("apartments", {url: apartment.url});
                     if (!data) {
-                        await Database.save("apartments", apartment);
+                        await Database.save("apartments", {...apartment, createdAt: new Date(), read: false});
                         console.log(`New apartment found for ${apartment.provider}`);
                         newAppartments++;
                     }

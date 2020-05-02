@@ -1,4 +1,4 @@
-import {JSONathomevastgoed, PROVIDERS, Provider, Result, MAX_VAL} from "./providers";
+import {JSONathomevastgoed, PROVIDERS, Provider, Result, MAX_VAL, CITY} from "./providers";
 import cheerio from "cheerio";
 import scrapper from 'website-scraper';
 import {deleteFolderRecursive} from "./utils";
@@ -14,6 +14,10 @@ function extractResultsFromAtHomeVastgoed(html: string, resolve: (value: any) =>
         const data = JSON.parse(json).data as JSONathomevastgoed[];
         resolve(data.map(result => ({
             provider: "athomevastgoed",
+            title: result.street,
+            address: result.fullAddress,
+            neighborhood: "",
+            price: result.ah_price.replace(",00", ""),
             url: result.url
         })));
     } catch (e) {
@@ -22,8 +26,12 @@ function extractResultsFromAtHomeVastgoed(html: string, resolve: (value: any) =>
 }
 
 function filterResultsOoms(results: any): Result[] {
-    return results.objects.filter((o: any) => o.office.name === "Rotterdam" && o.buy_or_rent === "rent" && o.value <= MAX_VAL).map((r:any) => ({
+    return results.objects.filter((o: any) => o.office.name === "Rotterdam" && o.is_available && o.buy_or_rent === "rent" && o.value >= 400 && o.value <= MAX_VAL).map((r:any) => ({
         provider: "ooms",
+        title: r.place,
+        address: r.street_name,
+        neighborhood: r.zip_code,
+        price: r.value,
         url: r.url
     }));
 }
@@ -46,6 +54,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
     deleteFolderRecursive(options.directory);
 
     return new Promise<any>(async (resolve, reject) => {
+        console.log(WEBSITE_CONFIG.url);
         if (WEBSITE_CONFIG.type === "REST") {
             const r = await fetch(WEBSITE_CONFIG.url);
             const results = await r.json();
@@ -56,25 +65,32 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
             }
         } else {
             scrapper(options).then((result: any) => {
-                const content = cheerio.load(result[0].text);
+                const $ = cheerio.load(result[0].text);
                 if (full) {
                     const results: Set<Result> = new Set<Result>();
                     if (website === "athomevastgoed") {
-                        extractResultsFromAtHomeVastgoed(content.html(), resolve, reject);
+                        extractResultsFromAtHomeVastgoed($.html(), resolve, reject);
                     } else {
-                        content(WEBSITE_CONFIG.filters?.url).each((_, element) => {
-                            const url = element.attribs[WEBSITE_CONFIG.filters?.link ?? 'href'];
+                        $(WEBSITE_CONFIG.filters?.item).each((_, element) => {
+                            const title = WEBSITE_CONFIG.filters?.title ? normalizeText($(element).find(WEBSITE_CONFIG.filters.title).text()) : "";
+                            const address = WEBSITE_CONFIG.filters?.address ? normalizeText($(element).find(WEBSITE_CONFIG.filters.address).text()) : "";
+                            const neighborhood = WEBSITE_CONFIG.filters?.neighborhood ? normalizeText($(element).find(WEBSITE_CONFIG.filters.neighborhood).text()) : "";
+                            const price = WEBSITE_CONFIG.filters?.price ? normalizePrice($(element).find(WEBSITE_CONFIG.filters.price).text()) : "";
+                            const url = WEBSITE_CONFIG.filters?.url ? $(element).find(WEBSITE_CONFIG.filters.url).attr(WEBSITE_CONFIG.filters?.link ?? 'href') : element.attribs["href"];
 
-                            if (url) {
-                                const finalUrl = normalizeUrl(url, WEBSITE_CONFIG);
-                                if (finalUrl) {
+                            if(url) {
+                                const newPrice = Number(price);
+                                if (newPrice > 0 && newPrice <= MAX_VAL) {
                                     results.add({
                                         provider: website as string,
-                                        url: finalUrl
+                                        title,
+                                        address,
+                                        city: CITY,
+                                        neighborhood,
+                                        price,
+                                        url: normalizeUrl(url, WEBSITE_CONFIG) || ""
                                     });
                                 }
-                            } else {
-                                reject(new Error(`${website}: no results`));
                             }
                         });
                         if (results.size > 0) {
@@ -84,7 +100,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
                         }
                     }
                 } else {
-                    const url = content(WEBSITE_CONFIG.filters?.url).first().attr(WEBSITE_CONFIG.filters?.link ?? 'href');
+                    const url = $(WEBSITE_CONFIG.filters?.url).first().attr(WEBSITE_CONFIG.filters?.link ?? 'href');
                     if (url) {
                         const finalUrl = normalizeUrl(url, WEBSITE_CONFIG);
                         if (finalUrl) {
@@ -104,7 +120,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
     });
 };
 
-const normalizeUrl = (url: string, config: any): string | undefined => {
+const normalizeUrl = (url?: string, config?: any): string | undefined => {
     if(url) {
         url = config.config && config.config.urlPrefix ? config.config.urlPrefix + url : url;
         if (!url.startsWith('http')) {
@@ -113,4 +129,12 @@ const normalizeUrl = (url: string, config: any): string | undefined => {
         return url;
     }
     return undefined;
+};
+
+const normalizeText = (text: string): string => {
+    return text.trim().replace(/\s+/g, " ");
+};
+
+const normalizePrice = (price: string): string => {
+    return price.replace(",00", "").replace(/[^0-9]+/g, "");
 };
