@@ -16,8 +16,6 @@ import {Database} from "./database";
                         await Database.save("apartments", {...apartment, createdAt: new Date(), read: false});
                         console.log(`New apartment found for ${apartment.provider}`);
                         newAppartments++;
-                    }else{
-                        console.log("Data", data);
                     }
                 };
                 console.log(`Job done for ${key}: ${results.length} apartments found and ${newAppartments} new.`);
