@@ -26,6 +26,7 @@ import {Database} from "./database";
             console.error(e);
         }
     }
+    console.log("JOB DONE");
     await Database.disconnect().catch(_=> {});
     console.log("MONGO: DISCONNECTED");
     return;
