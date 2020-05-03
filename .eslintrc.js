@@ -1,5 +1,8 @@
 module.exports = {
     parser: "@typescript-eslint/parser", // Specifies the ESLint parser
+    plugins:[
+      "security"
+    ],
     extends: [
         "plugin:security/recommended",
         "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin

@@ -52,7 +52,6 @@
     "format": "npx prettier -c --write \"./src/**/*.[j|t]s\"",
     "lint": "npx eslint \"./src/**/*.[j|t]s\"",
     "lint:fix": "npm run lint -- --fix",
-    "prestart": "npm run format && npm run lint",
     "start": "npx pm2 start pm2.yaml",
     "predev": "npm run format && npm run lint",
     "dev": "ts-node --project tsconfig.json src/server.ts",
