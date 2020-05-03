@@ -31,7 +31,7 @@ const server = http.createServer(router);
 (async () => {
     await Database.connect();
 
-    const task = schedule("0 */2 * * *", async () => {
+    const task = schedule("0 6,8,10,12,14,16,18,20,22 * * *", async () => {
         console.log("JOB: Running automatic hourly import");
         await importHouses();
         console.log("JOB: DONE");
