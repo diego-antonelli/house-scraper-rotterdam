@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { findApartments } from "./ApartmentController";
 
 export default [
     {
@@ -6,8 +7,8 @@ export default [
         method: "get",
         handler: [
             async (req: Request, res: Response) => {
-                // const result = await login(body as LoginRequest, res);
-                res.status(200).send({});
+                const results = await findApartments(req);
+                res.status(200).send(results);
             },
         ],
     },

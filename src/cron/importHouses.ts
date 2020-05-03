@@ -1,17 +1,17 @@
-import {PROVIDERS} from "../services/providers";
-import {scrapeWebsite} from "../services/scrapper";
-import {Database} from "../database";
+import { PROVIDERS } from "../services/providers";
+import { scrapeWebsite } from "../services/scrapper";
+import { Database } from "../database";
 
 export async function importHouses() {
-    for (let key in PROVIDERS) {
+    for (const key in PROVIDERS) {
         try {
             const results = await scrapeWebsite(key, true);
             if (Array.isArray(results)) {
                 let newAppartments = 0;
                 for (const apartment of results) {
-                    const data = await Database.findOne("apartments", {url: apartment.url});
+                    const data = await Database.findOne("apartments", { url: apartment.url });
                     if (!data) {
-                        await Database.save("apartments", {...apartment, createdAt: new Date()});
+                        await Database.save("apartments", { ...apartment, createdAt: new Date() });
                         newAppartments++;
                     }
                 }

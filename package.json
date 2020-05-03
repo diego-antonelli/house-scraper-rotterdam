@@ -18,6 +18,8 @@
     "@types/node-fetch": "^2.5.7",
     "@types/request-promise": "^4.1.46",
     "@types/website-scraper": "^1.2.5",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
