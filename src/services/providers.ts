@@ -1,7 +1,6 @@
-export const MAX_VAL = 1250;
 export const CITY = "Rotterdam";
+export const MIN_PRICE = 400;
 export const PROVIDERS: Provider = {
-    // Needs extra price filtering
     rdamapartments: {
         url: `https://rotterdamapartments.com/en/Rental-apartments/filter/${CITY}`,
         filters: {
@@ -17,7 +16,7 @@ export const PROVIDERS: Provider = {
         }
     },
     benhousing: {
-        url: `https://benhousing.nl/en/properties/filter(price-400%7Epricemax-${MAX_VAL}%7Eterm-${CITY.toLowerCase()})`,
+        url: `https://benhousing.nl/en/properties/filter(price-${MIN_PRICE}%7Eterm-${CITY.toLowerCase()})`,
         filters: {
             item: ".item",
             title: ".item-content > .row h3",
@@ -33,7 +32,7 @@ export const PROVIDERS: Provider = {
         }
     },
     huurWoningen: {
-        url: `https://www.huurwoningen.nl/in/${CITY.toLowerCase()}/?max_price=${MAX_VAL}&min_price=400&number_of_rooms=15&size=50&sort=datetime_created&direction=desc&page=1`,
+        url: `https://www.huurwoningen.nl/in/${CITY.toLowerCase()}/?min_price=${MIN_PRICE}&number_of_rooms=15&size=50&sort=datetime_created&direction=desc&page=1`,
         filters: {
             item: ".listing",
             url: '.listing__link',
@@ -49,7 +48,7 @@ export const PROVIDERS: Provider = {
         }
     },
     verrarealestate: {
-        url: `https://www.verrarealestate.com/huurwoningen/?for-sale=0&address=&min-price=400&max-price=${MAX_VAL}&forsale-min-price=&forsale-max-price=&city=${CITY}&district=&interior=&bedrooms=&available_at=&surface=&house_type=&house_type=`,
+        url: `https://www.verrarealestate.com/huurwoningen/?for-sale=0&address=&min-price=${MIN_PRICE}&forsale-min-price=&forsale-max-price=&city=${CITY}&district=&interior=&bedrooms=&available_at=&surface=&house_type=&house_type=`,
         filters: {
             item: "li.rent",
             title: ".info>span:first-of-type",
@@ -64,7 +63,7 @@ export const PROVIDERS: Provider = {
         }
     },
     ideaalhousing: {
-        url: `https://www.ideaalhousing.nl/dutch-rent-listings?city=${CITY}&house_type=&min_price=400&max_price=${MAX_VAL}&range=&surface=&bedrooms=&interior=&location=&available_at_date-datepicker=&available_at_date=`,
+        url: `https://www.ideaalhousing.nl/dutch-rent-listings?city=${CITY}&house_type=&min_price=${MIN_PRICE}&range=&surface=&bedrooms=&interior=&location=&available_at_date-datepicker=&available_at_date=`,
         filters: {
             item: ".listings .listing",
             title: "article h3",
@@ -80,7 +79,7 @@ export const PROVIDERS: Provider = {
         }
     },
     dopdop: {
-        url: `https://www.dop-dop.com/properties?city=${CITY}&bedrooms=&min_price=400&max_price=${MAX_VAL}&available_at_date=`,
+        url: `https://www.dop-dop.com/properties?city=${CITY}&bedrooms=&min_price=${MIN_PRICE}&available_at_date=`,
         filters: {
             item: ".listings .listing",
             title: ".address",
@@ -97,7 +96,7 @@ export const PROVIDERS: Provider = {
         }
     },
     rotterdamrent: {
-        url: `https://www.rotterdamrent.com/rental-properties?city=${CITY}&min_price=0&max_price=${MAX_VAL}&interior=`,
+        url: `https://www.rotterdamrent.com/rental-properties?city=${CITY}&min_price=${MIN_PRICE}&interior=`,
         filters: {
             item: ".listings .listing",
             title: "article h3",
@@ -129,7 +128,7 @@ export const PROVIDERS: Provider = {
         }
     },
     perfectrent: {
-        url: `https://www.perfectrent.nl/nl/huren/aanbod/rentals?view=&order=added&accommodation%5B%5D=apartment&accommodation%5B%5D=room&priceMin=0&priceMax=${MAX_VAL}&persons=1&order=added&direction=desc&&order=added&direction=desc&`,
+        url: `https://www.perfectrent.nl/nl/huren/aanbod/rentals?view=&order=added&accommodation%5B%5D=apartment&accommodation%5B%5D=room&priceMin=${MIN_PRICE}&persons=1&order=added&direction=desc&&order=added&direction=desc&`,
         filters: {
             item: ".object",
             title: ".list-object-type",
@@ -144,7 +143,7 @@ export const PROVIDERS: Provider = {
         }
     },
     deblooisvastgoed: {
-        url: `https://www.deblooisvastgoed.nl/huuraanbod/?filter_city=${CITY}&filter_min_price=&filter_max_price=${MAX_VAL}&filter_interior=&filter_surface=`,
+        url: `https://www.deblooisvastgoed.nl/huuraanbod/?filter_city=${CITY}&filter_min_price=${MIN_PRICE}&filter_interior=&filter_surface=`,
         filters: {
             item: "#residences .residence",
             title: ".smallTitle",
@@ -156,7 +155,7 @@ export const PROVIDERS: Provider = {
         }
     },
     valkvastgoed: {
-        url: `http://www.valkvastgoed.com/aanbod/?city=${CITY}&district=&min-price=400&interior=&max-price=${MAX_VAL}&bedrooms=&available_at=`,
+        url: `http://www.valkvastgoed.com/aanbod/?city=${CITY}&district=&min-price=${MIN_PRICE}&interior=&bedrooms=&available_at=`,
         filters: {
             item: "li.rent",
             title: ".info h3 a",
@@ -168,7 +167,7 @@ export const PROVIDERS: Provider = {
         }
     },
     houseSelect: {
-        url: `https://www.hsmakelaars.nl/woningaanbod/huur/land-nederland/gemeente-${CITY.toLowerCase()}?locationofinterest=${CITY}&pricerange.maxprice=${MAX_VAL}`,
+        url: `https://www.hsmakelaars.nl/woningaanbod/huur/land-nederland/gemeente-${CITY.toLowerCase()}?locationofinterest=${CITY}&pricerange.minprice=${MIN_PRICE}`,
         filters: {
             item: ".sys-page-of-properties .objectcontainer",
             title: ".object_data_container h2.obj_address",
@@ -193,7 +192,7 @@ export const PROVIDERS: Provider = {
     //     }
     // },
     vhpn: {
-        url: `http://www.vhpn.nl/index.php?action=search&p=search&street=&city=${CITY.toLowerCase()}&house_type=&bedrooms=&min-price=&max-price=${MAX_VAL}&interior=`,
+        url: `http://www.vhpn.nl/index.php?action=search&p=search&street=&city=${CITY.toLowerCase()}&house_type=&bedrooms=&min-price=${MIN_PRICE}&interior=`,
         filters: {
             item: ".type-sale.status-publish",
             title: "h2 a",
@@ -235,7 +234,7 @@ export const PROVIDERS: Provider = {
     //     }
     // },
     indestad: {
-        url: `https://www.indestad.nl/huurwoningen/?wpp_search%5Bpagination%5D=on&wpp_search%5Bper_page%5D=10&wpp_search%5Bstrict_search%5D=false&wpp_search%5Bproperty_type%5D=direct_aanbod&wpp_search%5Bprice%5D%5Bmin%5D=400&wpp_search%5Bprice%5D%5Bmax%5D=${MAX_VAL}&wpp_search%5Barea%5D%5Bmin%5D=&wpp_search%5Barea%5D%5Bmax%5D=&wpp_search%5Bplaats%5D%5B0%5D=${CITY}`,
+        url: `https://www.indestad.nl/huurwoningen/?wpp_search%5Bpagination%5D=on&wpp_search%5Bper_page%5D=10&wpp_search%5Bstrict_search%5D=false&wpp_search%5Bproperty_type%5D=direct_aanbod&wpp_search%5Bprice%5D%5Bmin%5D=${MIN_PRICE}&wpp_search%5Barea%5D%5Bmin%5D=&wpp_search%5Barea%5D%5Bmax%5D=&wpp_search%5Bplaats%5D%5B0%5D=${CITY}`,
         filters: {
             item: ".aanbod-item-container",
             title: ".columns h1",
@@ -251,7 +250,7 @@ export const PROVIDERS: Provider = {
         type: "REST"
     },
     kolpa: {
-        url: `http://www.kolpa.nl/nl/aanbod?plaats=${CITY}&koophuur=huur&prijs_min=400&prijs_max=${MAX_VAL}&type=priv`,
+        url: `http://www.kolpa.nl/nl/aanbod?plaats=${CITY}&koophuur=huur&prijs_min=${MIN_PRICE}&type=priv`,
         filters: {
             item: ".object-item",
             title: ".object-item__title",
@@ -263,7 +262,7 @@ export const PROVIDERS: Provider = {
         }
     },
     vbo: {
-        url: `https://www.vbo.nl/huurwoningen/${CITY.toLowerCase()}/0-${MAX_VAL}/1+kamers/50+woonopp.html?p=1`,
+        url: `https://www.vbo.nl/huurwoningen/${CITY.toLowerCase()}/${MIN_PRICE}+.html?p=1&l=500`,
         filters: {
             item: ".objects .object-tiles",
             title: "figcaption h3",
@@ -300,7 +299,7 @@ export const PROVIDERS: Provider = {
         }
     },
     lankhuijzen: {
-        url: `https://www.lankhuijzen.nl/aanbod/woningaanbod/${CITY.toUpperCase()}/-${MAX_VAL}/huur/`,
+        url: `https://www.lankhuijzen.nl/aanbod/woningaanbod/${CITY.toUpperCase()}/${MIN_PRICE}+/huur/aantal-80/`,
         filters: {
             item: ".aanbodEntry",
             title: ".street-address",
@@ -315,7 +314,7 @@ export const PROVIDERS: Provider = {
         }
     },
     riva: {
-        url: `https://www.rivarentals.nl/huurwoningen-${CITY.toLowerCase()}/?action=search&city=${CITY.toLowerCase()}&min-price=500&max-price=${MAX_VAL}`,
+        url: `https://www.rivarentals.nl/huurwoningen-${CITY.toLowerCase()}/?action=search&city=${CITY.toLowerCase()}&min-price=${MIN_PRICE}`,
         filters: {
             item: ".house-overview-filtered-houses .house-overview-single-house",
             title: ".desc h3",
@@ -331,7 +330,7 @@ export const PROVIDERS: Provider = {
         }
     },
     pararius: {
-        url: `https://www.pararius.com/apartments/${CITY.toLowerCase()}/area-${CITY.toLowerCase()}-centrum/400-${MAX_VAL}/45m2`,
+        url: `https://www.pararius.com/apartments/${CITY.toLowerCase()}/area-${CITY.toLowerCase()}-centrum/${MIN_PRICE}-5000`,
         filters: {
             item: ".listing-search-item",
             title: ".listing-search-item__link--title",
@@ -346,7 +345,7 @@ export const PROVIDERS: Provider = {
         }
     },
     athomevastgoed: {
-        url: `https://www.athomevastgoed.nl/woningaanbod?order=published_at_desc&location=&_labels%5Blocation%5D=&category=all&furnishing=all&number_of_bedrooms=&ray=0&min_price=&max_price=${MAX_VAL}&area=`,
+        url: `https://www.athomevastgoed.nl/woningaanbod?order=published_at_desc&location=${CITY}&_labels%5Blocation%5D=&category=all&furnishing=all&number_of_bedrooms=&ray=0&min_price=${MIN_PRICE}&area=`,
     },
     // korrektwonen: {
     //     url: `http://korrektwonen.nl/properties/?filter_location=&filter_type=&filter_contract_type=54&filter_price_from=&filter_price_to=${MAX_VAL}&filter_sort_by=published&filter_order=DESC`,
@@ -355,7 +354,7 @@ export const PROVIDERS: Provider = {
     //     }
     // },
     rotsvast: {
-        url: `https://www.rotsvast.nl/en/property-listings/?type=2&city=${CITY}&minimumPrice[2]=400&maximumPrice[2]=${MAX_VAL}`,
+        url: `https://www.rotsvast.nl/en/property-listings/?type=2&city=${CITY}&minimumPrice[2]=${MIN_PRICE}`,
         filters: {
             item: "div.residence-gallery",
             title: ".residence-street",
@@ -370,7 +369,7 @@ export const PROVIDERS: Provider = {
         }
     },
     maxProperty: {
-        url: `https://www.maxpropertyrental.com/woningaanbod/huur/land-nederland/gemeente-${CITY.toLowerCase()}?locationofinterest=${CITY}&pricerange.maxprice=${MAX_VAL}`,
+        url: `https://www.maxpropertyrental.com/woningaanbod/huur/land-nederland/gemeente-${CITY.toLowerCase()}?locationofinterest=${CITY}&pricerange.minprice=${MIN_PRICE}`,
         filters: {
             item: ".sys-page-of-properties .objectcontainer .imagecontainer",
             title: ".obj_address_container .obj_address",

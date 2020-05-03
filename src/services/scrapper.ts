@@ -1,4 +1,4 @@
-import {JSONathomevastgoed, PROVIDERS, Provider, Result, MAX_VAL, CITY} from "./providers";
+import {JSONathomevastgoed, PROVIDERS, Provider, Result, CITY, MIN_PRICE} from "./providers";
 import cheerio from "cheerio";
 import scrapper from 'website-scraper';
 import {deleteFolderRecursive} from "./utils";
@@ -27,7 +27,7 @@ function extractResultsFromAtHomeVastgoed(html: string, resolve: (value: any) =>
 }
 
 function filterResultsOoms(results: any): Result[] {
-    return results.objects.filter((o: any) => o.office.name === "Rotterdam" && o.is_available && o.buy_or_rent === "rent" && o.value >= 400 && o.value <= MAX_VAL).map((r:any) => ({
+    return results.objects.filter((o: any) => o.office.name === "Rotterdam" && o.is_available && o.buy_or_rent === "rent" && o.value >= MIN_PRICE).map((r:any) => ({
         provider: "ooms",
         title: r.place,
         address: r.street_name,
@@ -56,7 +56,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
     deleteFolderRecursive(options.directory);
 
     return new Promise<any>(async (resolve, reject) => {
-        console.log(WEBSITE_CONFIG.url);
+        console.log(`IMPORT APARTMENTS FROM ${website}`);
         if (WEBSITE_CONFIG.type === "REST") {
             const r = await fetch(WEBSITE_CONFIG.url);
             const results = await r.json();
@@ -98,7 +98,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
 
                             if(url) {
                                 const newPrice = Number(price);
-                                if (newPrice > 0 && newPrice <= MAX_VAL) {
+                                if (newPrice >= MIN_PRICE) {
                                     results.add({
                                         provider: website as string,
                                         title,
