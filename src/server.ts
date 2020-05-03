@@ -28,13 +28,14 @@ const server = http.createServer(router);
 (async () => {
     await Database.connect();
 
-    const task = schedule("0 0 * * *", async () => {
+    const task = schedule("0 * * * *", async () => {
         console.log("JOB: Running automatic hourly import");
         await importHouses();
         console.log("JOB: DONE");
     });
 
     server.listen(PORT, () => {
+        task.start();
         console.log(`Server is running http://localhost:${PORT}...`);
     });
 

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "App to scrap places to live",
   "author": "Diego & Mehmetino",
+  "main": "dist/server.js",
   "devDependencies": {
     "@types/cheerio": "^0.22.18",
     "@types/compression": "^1.7.0",
@@ -55,6 +56,6 @@
     "start": "npx pm2 start pm2.yaml",
     "predev": "npm run format && npm run lint",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
-    "test": "ts-node --project tsconfig.json tests/index.spec.ts"
+    "test": "ts-node --project tsconfig.json src/tests/index.spec.ts"
   }
 }

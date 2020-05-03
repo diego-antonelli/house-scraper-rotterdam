@@ -8,14 +8,14 @@ interface RequestBody {
 }
 
 export async function findApartments(req: Request): Promise<Result[]> {
-    const { sort, sortOrder } = req.params;
+    const { sort, sortOrder } = req.query;
     const { maxPrice } = req.body as RequestBody;
     return await Database.findMany(
         "apartments",
         {
             deleted: { $ne: true },
-            price: { $le: maxPrice },
+            price: { $lte: maxPrice ?? 5000 },
         },
-        generateSort(sort ?? "price", sortOrder === "desc"),
+        generateSort((sort as string) ?? "price", sortOrder === "desc"),
     );
 }

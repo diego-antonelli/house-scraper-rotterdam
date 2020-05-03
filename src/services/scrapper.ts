@@ -37,8 +37,12 @@ function normalizeText(text: string): string {
     return text.trim().replace(/\s+/g, " ");
 }
 
-function normalizePrice(price: string): string {
-    return price.replace(",00", "").replace(/[^0-9]+/g, "");
+function normalizePrice(price: string, website: string): string {
+    if (website === "maashave") {
+        price = price.replace(",00", "");
+    }
+    price = price.replace(",00 ", "").replace(/[^0-9]+/g, "");
+    return price;
 }
 
 function extractResultsFromAtHomeVastgoed(html: string, resolve: (value: any) => void, reject: (error: Error) => void) {
@@ -103,7 +107,6 @@ export function scrapeWebsite(website: keyof Provider, full = false): Promise<Re
     deleteFolderRecursive(options.directory);
 
     return new Promise<any>(async (resolve, reject) => {
-        console.log(`IMPORT APARTMENTS FROM ${website}`);
         if (WEBSITE_CONFIG.type === "REST") {
             const r = await fetch(WEBSITE_CONFIG.url);
             const results = await r.json();
@@ -115,6 +118,7 @@ export function scrapeWebsite(website: keyof Provider, full = false): Promise<Re
         } else {
             scrapper(options)
                 .then((result: any) => {
+                    console.log(`IMPORT APARTMENTS FROM ${website}`);
                     const $ = cheerio.load(result[0].text, website === "pararius" ? { xmlMode: true } : {});
                     if (full) {
                         const results: Set<Result> = new Set<Result>();
@@ -132,7 +136,10 @@ export function scrapeWebsite(website: keyof Provider, full = false): Promise<Re
                                     ? normalizeText($(element).find(WEBSITE_CONFIG.filters.neighborhood).text())
                                     : "";
                                 const price = WEBSITE_CONFIG.filters?.price
-                                    ? normalizePrice($(element).find(WEBSITE_CONFIG.filters.price).text())
+                                    ? normalizePrice(
+                                          $(element).find(WEBSITE_CONFIG.filters.price).text(),
+                                          website as string,
+                                      )
                                     : "";
                                 const url = WEBSITE_CONFIG.filters?.url
                                     ? $(element)

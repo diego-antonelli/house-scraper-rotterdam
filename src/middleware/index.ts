@@ -6,7 +6,6 @@ import {
     handleReferrerPolicy,
     handleRateLimit,
 } from "./common";
-import { handleAPIDocs } from "./apiDocs";
 
 export default [
     handleHelmet,
@@ -15,5 +14,4 @@ export default [
     handleCors,
     handleBodyRequestParsing,
     handleCompression,
-    handleAPIDocs,
 ];
