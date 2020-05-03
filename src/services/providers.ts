@@ -262,7 +262,7 @@ export const PROVIDERS: Provider = {
         },
     },
     vbo: {
-        url: `https://www.vbo.nl/huurwoningen/${CITY.toLowerCase()}/${MIN_PRICE}+.html?p=1&l=500`,
+        url: `https://www.vbo.nl/huurwoningen/${CITY.toLowerCase()}/${MIN_PRICE}+.html?p=1&l=20`,
         filters: {
             item: ".objects .object-tiles",
             title: "figcaption h3",
@@ -299,7 +299,7 @@ export const PROVIDERS: Provider = {
         },
     },
     lankhuijzen: {
-        url: `https://www.lankhuijzen.nl/aanbod/woningaanbod/${CITY.toUpperCase()}/${MIN_PRICE}+/huur/aantal-80/`,
+        url: `https://www.lankhuijzen.nl/aanbod/woningaanbod/${CITY.toUpperCase()}/${MIN_PRICE}+/huur/aantal-20/`,
         filters: {
             item: ".aanbodEntry",
             title: ".street-address",
@@ -413,7 +413,7 @@ export interface Result {
     title?: string;
     neighborhood?: string;
     address?: string;
-    price?: number;
+    price: number;
     city?: string;
     images?: string[];
     url: string;

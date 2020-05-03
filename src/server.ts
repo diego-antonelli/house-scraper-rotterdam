@@ -7,6 +7,9 @@ import errorHandlers from "./middleware/errorHandlers";
 import { Database } from "./database";
 import { schedule } from "node-cron";
 import { importHouses } from "./cron/importHouses";
+import { config } from "dotenv";
+
+config();
 
 process.on("uncaughtException", (e) => {
     console.log(e);
@@ -28,7 +31,7 @@ const server = http.createServer(router);
 (async () => {
     await Database.connect();
 
-    const task = schedule("0 */2 * * 1-5", async () => {
+    const task = schedule("0 */2 * * *", async () => {
         console.log("JOB: Running automatic hourly import");
         await importHouses();
         console.log("JOB: DONE");
