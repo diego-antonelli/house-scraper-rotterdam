@@ -55,7 +55,7 @@
     "prestart": "npm run format && npm run lint",
     "start": "npx pm2 start pm2.yaml",
     "predev": "npm run format && npm run lint",
-    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
+    "dev": "ts-node --project tsconfig.json src/server.ts",
     "test": "ts-node --project tsconfig.json src/tests/index.spec.ts"
   }
 }
