@@ -18,7 +18,8 @@ function extractResultsFromAtHomeVastgoed(html: string, resolve: (value: any) =>
             address: result.fullAddress,
             neighborhood: "",
             price: result.ah_price.replace(",00", ""),
-            url: result.url
+            url: result.url,
+            images: [result.listingMainPhoto]
         })));
     } catch (e) {
         reject(e);
@@ -32,7 +33,8 @@ function filterResultsOoms(results: any): Result[] {
         address: r.street_name,
         neighborhood: r.zip_code,
         price: r.value,
-        url: r.url
+        url: r.url,
+        images: r.realworks_main_images.map((img: any) => `https://ooms.com${img.sizes[Object.keys(img.sizes)[0]]}`)
     }));
 }
 
@@ -65,7 +67,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
             }
         } else {
             scrapper(options).then((result: any) => {
-                const $ = cheerio.load(result[0].text);
+                const $ = cheerio.load(result[0].text, website === "pararius" ? {xmlMode: true}: {});
                 if (full) {
                     const results: Set<Result> = new Set<Result>();
                     if (website === "athomevastgoed") {
@@ -77,6 +79,22 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
                             const neighborhood = WEBSITE_CONFIG.filters?.neighborhood ? normalizeText($(element).find(WEBSITE_CONFIG.filters.neighborhood).text()) : "";
                             const price = WEBSITE_CONFIG.filters?.price ? normalizePrice($(element).find(WEBSITE_CONFIG.filters.price).text()) : "";
                             const url = WEBSITE_CONFIG.filters?.url ? $(element).find(WEBSITE_CONFIG.filters.url).attr(WEBSITE_CONFIG.filters?.link ?? 'href') : element.attribs["href"];
+                            const images: string[] = [];
+                            if(WEBSITE_CONFIG.filters?.images){
+                                $(element).find(WEBSITE_CONFIG.filters.images).each((_, imgElement) => {
+                                    if(WEBSITE_CONFIG.config?.imageAttr){
+                                        const url = normalizeImageUrl( imgElement.attribs[WEBSITE_CONFIG.config.imageAttr] ?? imgElement.attribs["src"], WEBSITE_CONFIG);
+                                        if(url) {
+                                            images.push(url);
+                                        }
+                                    }else{
+                                        const url = normalizeImageUrl(imgElement.attribs["src"], WEBSITE_CONFIG);
+                                        if(url) {
+                                            images.push(url);
+                                        }
+                                    }
+                                });
+                            }
 
                             if(url) {
                                 const newPrice = Number(price);
@@ -88,6 +106,7 @@ export const scrapeWebsite = (website: keyof Provider, full: boolean = false): P
                                         city: CITY,
                                         neighborhood,
                                         price: newPrice,
+                                        images,
                                         url: normalizeUrl(url, WEBSITE_CONFIG) || ""
                                     });
                                 }
@@ -125,6 +144,24 @@ const normalizeUrl = (url?: string, config?: any): string | undefined => {
         url = config.config && config.config.urlPrefix ? config.config.urlPrefix + url : url;
         if (!url.startsWith('http')) {
             return undefined;
+        }
+        return url;
+    }
+    return undefined;
+};
+
+const normalizeImageUrl = (url?: string, config?: any): string | undefined => {
+    if(url) {
+        if(url.indexOf("background-image") !== -1){
+            url = url.substr(url.indexOf("http"));
+            url = url.replace(");", "");
+        }
+        if (!url.startsWith('http')) {
+            url = config.config && config.config.urlPrefixImage ? config.config.urlPrefixImage + url : url;
+
+            if (!url.startsWith('http')) {
+                return undefined;
+            }
         }
         return url;
     }
