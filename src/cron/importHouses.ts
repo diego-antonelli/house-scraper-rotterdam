@@ -3,7 +3,7 @@ import { scrapeWebsite } from "../services/scrapper";
 import { Database } from "../database";
 import { notifyUsersByPreference } from "./notify";
 
-export async function importHouses() {
+export async function importHouses(): Promise<Result[]> {
     const apartmentsToNotify: Result[] = [];
     for (const key in PROVIDERS) {
         try {
@@ -25,4 +25,5 @@ export async function importHouses() {
         }
     }
     await notifyUsersByPreference(apartmentsToNotify);
+    return apartmentsToNotify;
 }
