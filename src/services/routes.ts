@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { findApartments } from "./ApartmentController";
-import {importHouses} from "../cron/importHouses";
+import { importHouses } from "../cron/importHouses";
+import { sendEmail } from "../cron/notify";
 
 export default [
     {
@@ -13,13 +14,22 @@ export default [
             },
         ],
     },
-
     {
-        path: "/api/v1/imports",
+        path: "/api/v1/import",
         method: "get",
         handler: [
             async (req: Request, res: Response) => {
                 const newApartments = await importHouses();
+                res.status(200).send(newApartments);
+            },
+        ],
+    },
+    {
+        path: "/api/v1/test-email/:email",
+        method: "get",
+        handler: [
+            async (req: Request, res: Response) => {
+                const newApartments = await sendEmail(req.params.email, "Test");
                 res.status(200).send(newApartments);
             },
         ],

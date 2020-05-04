@@ -12,14 +12,16 @@ interface Recipient {
 }
 
 const transporter = createTransport({
-    service: "gmail",
+    host: process.env.SMTP_ADDRESS,
+    port: Number(process.env.SMTP_PORT),
+    secure: false,
     auth: {
         user: process.env.SMTP_EMAIL,
         pass: process.env.SMTP_PASSWORD,
     },
 });
 
-async function sendEmail(to: string, apartments: string) {
+export async function sendEmail(to: string, apartments: string) {
     const mailOptions = {
         from: process.env.SMTP_EMAIL,
         to,
