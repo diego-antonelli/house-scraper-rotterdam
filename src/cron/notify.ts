@@ -33,11 +33,13 @@ ${apartments}
 Regards
 The scraper`,
     };
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log(`Email successfully sent to ${to}`);
-    } catch (e) {
-        console.error(`Error sending email to ${to}`, e);
+    if (apartments) {
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`Email successfully sent to ${to}`);
+        } catch (e) {
+            console.error(`Error sending email to ${to}`, e);
+        }
     }
 }
 
