@@ -4,6 +4,8 @@ It scraps in around 20 websites of agencies in Rotterdam area (Netherlands).
 
 The "system" uses Node, Typescript, Express and MongoDB to perform the scrap.
 
+Thanks [@mmehmetAliIzci](https://github.com/mmehmetAliIzci) for the initial implementation.
+
 #### How to configure ####
 1 - Setup your environment creating a .env file or defining the following environment variables:
 ```bash
