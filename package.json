@@ -1,8 +1,8 @@
 {
-  "name": "find-my-place",
+  "name": "house-scraper-rotterdam",
   "version": "1.0.0",
-  "description": "App to scrap places to live",
-  "author": "Diego & Mehmetino",
+  "description": "App to scrap places to live in Rotterdam",
+  "author": "Diego & Mehmet",
   "main": "dist/server.js",
   "devDependencies": {
     "@types/cheerio": "^0.22.18",
@@ -44,7 +44,7 @@
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.6",
     "npm-watch": "^0.6.0",
-    "pm2": "^4.2.3",
+    "pm2": "^4.4.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "tsc-watch": "^4.2.3",
