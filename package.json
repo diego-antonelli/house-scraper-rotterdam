@@ -48,7 +48,7 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "tsc-watch": "^4.2.3",
-    "website-scraper": "^4.2.0",
+    "website-scraper": "^4.2.1",
     "snyk": "^1.323.1"
   },
   "scripts": {
