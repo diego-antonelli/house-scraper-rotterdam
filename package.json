@@ -49,7 +49,7 @@
     "request-promise": "^4.2.5",
     "tsc-watch": "^4.2.4",
     "website-scraper": "^4.2.1",
-    "snyk": "^1.323.1"
+    "snyk": "^1.323.2"
   },
   "scripts": {
     "format": "npx prettier -c --write \"./src/**/*.[j|t]s\"",
