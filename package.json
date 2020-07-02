@@ -37,7 +37,7 @@
     "dotenv": "^8.2.0",
     "express": "^5.0.0-alpha.8",
     "express-rate-limit": "^5.1.1",
-    "helmet": "^3.22.0",
+    "helmet": "^3.22.1",
     "html-to-text": "^5.1.1",
     "mongodb": "^3.5.7",
     "node-cron": "^2.0.3",
