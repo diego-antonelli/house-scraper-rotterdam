@@ -43,7 +43,7 @@
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.6",
-    "npm-watch": "^0.6.0",
+    "npm-watch": "^0.7.0",
     "pm2": "^4.4.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
