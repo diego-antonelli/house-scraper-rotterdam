@@ -37,4 +37,4 @@ SMTP_PASSWORD=YOUR_SMTP_PASSWORD
 We use PM2 to run the server (Express) in multiple cores and use full capacity of the machines. To run, just execute `npm start` in your terminal. To kill pm2 process just execute `npm run stop`. To see logs related to the server use `npm run logs`. If you are running locally execute `npm run dev`.
 
 ### How to contribute ###
-Few free to open PRs to improve this repo.
+Feel free to open PRs to improve this repo.
