@@ -31,20 +31,27 @@ const server = http.createServer(router);
 (async () => {
     await Database.connect();
 
-    const task = schedule("0 6,8,10,12,14,16,18,20,22 * * *", async () => {
-        console.log("JOB: Running automatic hourly import");
-        await importHouses();
+    const taskRent = schedule("0 6,8,10,12,14,16,18,20,22 * * *", async () => {
+        console.log("JOB: Running automatic hourly import for rents");
+        await importHouses("rent");
+        console.log("JOB: DONE");
+    });
+    const taskSale = schedule("5 6,8,10,12,14,16,18,20,22 * * *", async () => {
+        console.log("JOB: Running automatic hourly import for sales");
+        await importHouses("sale");
         console.log("JOB: DONE");
     });
 
     server.listen(PORT, () => {
-        task.start();
+        taskRent.start();
+        taskSale.start();
         console.log(`Server is running http://localhost:${PORT}...`);
     });
 
     process.on("exit", async () => {
         await Database.disconnect();
-        task.stop();
+        taskRent.stop();
+        taskSale.stop();
         console.log("SERVER DISCONNECTED");
     });
 })();

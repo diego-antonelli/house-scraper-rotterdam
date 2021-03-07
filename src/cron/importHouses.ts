@@ -3,15 +3,15 @@ import { scrapeWebsite } from "../services/scrapper";
 import { Database } from "../database";
 import { notifyUsersByPreference } from "./notify";
 
-export async function importHouses(): Promise<Result[]> {
+export async function importHouses(type: "sale" | "rent"): Promise<Result[]> {
     const apartmentsToNotify: Result[] = [];
     for (const key in PROVIDERS) {
         try {
-            const results = await scrapeWebsite(key, true);
+            const results = await scrapeWebsite(key, true, type === "sale");
             if (Array.isArray(results)) {
                 let newApartments = 0;
                 for (const apartment of results) {
-                    const data = await Database.findOne("apartments", { url: apartment.url });
+                    const data = await Database.findOne("apartments", { url: apartment.url, type });
                     if (!data) {
                         await Database.save("apartments", { ...apartment, createdAt: new Date() });
                         newApartments++;
@@ -24,6 +24,6 @@ export async function importHouses(): Promise<Result[]> {
             console.error(e);
         }
     }
-    await notifyUsersByPreference(apartmentsToNotify);
+    await notifyUsersByPreference(apartmentsToNotify, type);
     return apartmentsToNotify;
 }

@@ -22,13 +22,18 @@
     "@types/website-scraper": "^1.2.5",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
+    "ejs": "^3.1.5",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-security": "^1.4.0",
     "prettier": "^2.0.4",
     "ts-node": "^8.9.1",
-    "typescript": "^3.8.3"
+    "tz-offset": "^0.0.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
@@ -40,6 +45,7 @@
     "helmet": "^3.22.1",
     "html-to-text": "^6.0.0",
     "mongodb": "^3.5.8",
+    "mongodb-client-encryption": "^1.2.1",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.4.16",
@@ -48,6 +54,7 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "tsc-watch": "^4.2.7",
+    "ts-loader": "^8.0.4",
     "website-scraper": "^4.2.1",
     "snyk": "^1.474.0"
   },
@@ -64,7 +71,10 @@
     "test": "ts-node --project tsconfig.json src/tests/index.spec.ts",
     "logs": "npx pm2 logs --lines=50",
     "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "prepare": "npm run snyk-protect",
+    "build": "rm -rf dist && webpack --mode development",
+    "build:prod": "rm -rf dist && webpack --mode production",
+    "postinstall": "npm run build"
   },
   "snyk": true
 }

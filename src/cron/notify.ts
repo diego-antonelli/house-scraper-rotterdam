@@ -9,6 +9,7 @@ config();
 interface Recipient {
     email: string;
     maxPrice: number;
+    type: "rent" | "sale";
 }
 
 const transporter = createTransport({
@@ -43,8 +44,11 @@ The scraper`,
     }
 }
 
-export async function notifyUsersByPreference(newApartments: Result[]) {
-    const recipients = (await Database.findMany("recipients", { deleted: { $ne: true } })) as Recipient[];
+export async function notifyUsersByPreference(newApartments: Result[], type: "rent" | "sale" | "both") {
+    const recipients = (await Database.findMany("recipients", {
+        deleted: { $ne: true },
+        ...(type === "both" ? {} : { type }),
+    })) as Recipient[];
     for (const recipient of recipients) {
         const apartments = newApartments
             .filter((ap) => ap.price <= recipient.maxPrice)

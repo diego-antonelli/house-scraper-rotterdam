@@ -69,30 +69,41 @@ function extractResultsFromAtHomeVastgoed(html: string, resolve: (value: any) =>
     }
 }
 
-function filterResultsOoms(results: any): Result[] {
+function filterResultsOoms(results: any, sale = false): Result[] {
     return results.objects
         .filter(
             (o: any) =>
-                o.office.name === "Rotterdam" && o.is_available && o.buy_or_rent === "rent" && o.value >= MIN_PRICE,
+                o.office.name === "Rotterdam" &&
+                o.is_available &&
+                o.buy_or_rent === (sale ? "buy" : "rent") &&
+                o.value >= MIN_PRICE,
         )
-        .map((r: any) => ({
-            provider: "ooms",
-            title: r.place,
-            address: r.street_name,
-            neighborhood: r.zip_code,
-            price: r.value,
-            url: r.url,
-            images: r.realworks_main_images.map(
-                (img: any) => `https://ooms.com${img.sizes[Object.keys(img.sizes)[0]]}`,
-            ),
-        }));
+        .map(
+            (r: any) =>
+                ({
+                    provider: "ooms",
+                    title: r.place,
+                    address: r.street_name,
+                    neighborhood: r.zip_code,
+                    price: r.value,
+                    url: r.url,
+                    images: r.realworks_main_images.map(
+                        (img: any) => `https://ooms.com${img.sizes[Object.keys(img.sizes)[0]]}`,
+                    ),
+                    type: sale ? "sale" : "rent",
+                } as Result),
+        );
 }
 
-export function scrapeWebsite(website: keyof Provider, full = false): Promise<Result | Result[]> {
+export function scrapeWebsite(website: keyof Provider, full = false, sale = false): Promise<Result | Result[]> {
     const WEBSITE_CONFIG = PROVIDERS[website];
 
+    if (sale && !WEBSITE_CONFIG.urlSale) {
+        return Promise.resolve([]);
+    }
+
     const options = {
-        urls: [WEBSITE_CONFIG.url],
+        urls: [sale ? WEBSITE_CONFIG.urlSale ?? "" : WEBSITE_CONFIG.url],
         sources: [],
         request: {
             headers: {
@@ -111,7 +122,7 @@ export function scrapeWebsite(website: keyof Provider, full = false): Promise<Re
             const r = await fetch(WEBSITE_CONFIG.url);
             const results = await r.json();
             if (website === "ooms") {
-                resolve(filterResultsOoms(results));
+                resolve(filterResultsOoms(results, sale));
             } else {
                 resolve(results);
             }
@@ -172,7 +183,7 @@ export function scrapeWebsite(website: keyof Provider, full = false): Promise<Re
                                         });
                                 }
 
-                                if (url) {
+                                if (url && url !== "#") {
                                     const newPrice = Number(price);
                                     if (newPrice >= MIN_PRICE) {
                                         results.add({
@@ -184,6 +195,7 @@ export function scrapeWebsite(website: keyof Provider, full = false): Promise<Re
                                             price: newPrice,
                                             images,
                                             url: normalizeUrl(url, WEBSITE_CONFIG) || "",
+                                            type: sale ? "sale" : "rent",
                                         });
                                     }
                                 }
