@@ -74,8 +74,10 @@ export async function notifyUser(newApartments: Result[], email: string): Promis
     if (!recipient) {
         throw new HTTP400Error();
     }
-    const apartments = newApartments
-        .filter((ap) => ap.price <= recipient.maxPrice && ap.type === recipient.type)
+    const filteredApartments = newApartments.filter(
+        (ap) => ap.price <= recipient.maxPrice && ap.type === recipient.type,
+    );
+    const apartments = filteredApartments
         .sort((a, b) => a.price - b.price)
         .map(
             (apartment) =>
@@ -88,6 +90,6 @@ export async function notifyUser(newApartments: Result[], email: string): Promis
     await sendEmail(recipient.email, apartments);
     return {
         email,
-        total: apartments.length,
+        total: filteredApartments.length,
     };
 }
