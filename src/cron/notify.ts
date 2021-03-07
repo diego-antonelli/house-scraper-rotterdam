@@ -88,6 +88,6 @@ export async function notifyUser(newApartments: Result[], email: string): Promis
     await sendEmail(recipient.email, apartments);
     return {
         email,
-        total: newApartments.length,
+        total: apartments.length,
     };
 }
