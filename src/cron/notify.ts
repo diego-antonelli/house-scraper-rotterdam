@@ -3,6 +3,7 @@ import { Database } from "../database";
 import { createTransport } from "nodemailer";
 
 import { config } from "dotenv";
+import { HTTP400Error } from "../utils/httpErrors";
 
 config();
 
@@ -44,10 +45,10 @@ The scraper`,
     }
 }
 
-export async function notifyUsersByPreference(newApartments: Result[], type: "rent" | "sale" | "both") {
+export async function notifyUsersByPreference(newApartments: Result[], type: "rent" | "sale") {
     const recipients = (await Database.findMany("recipients", {
         deleted: { $ne: true },
-        ...(type === "both" ? {} : { type }),
+        type,
     })) as Recipient[];
     for (const recipient of recipients) {
         const apartments = newApartments
@@ -63,4 +64,30 @@ export async function notifyUsersByPreference(newApartments: Result[], type: "re
             .join("\n\n");
         await sendEmail(recipient.email, apartments);
     }
+}
+
+export async function notifyUser(newApartments: Result[], email: string): Promise<{ email: string; total: number }> {
+    const recipient = (await Database.findOne("recipients", {
+        deleted: { $ne: true },
+        email,
+    })) as Recipient;
+    if (!recipient) {
+        throw new HTTP400Error();
+    }
+    const apartments = newApartments
+        .filter((ap) => ap.price <= recipient.maxPrice && ap.type === recipient.type)
+        .sort((a, b) => a.price - b.price)
+        .map(
+            (apartment) =>
+                `${apartment.title} - ${apartment.price.toLocaleString("nl-NL", {
+                    style: "currency",
+                    currency: "EUR",
+                })} - ${apartment.url}`,
+        )
+        .join("\n\n");
+    await sendEmail(recipient.email, apartments);
+    return {
+        email,
+        total: newApartments.length,
+    };
 }

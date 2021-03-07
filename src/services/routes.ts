@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { findApartments } from "./apartment.service";
+import { findApartments, renotifyUser } from "./apartment.service";
 import { importHouses } from "../cron/importHouses";
 import { sendEmail } from "../cron/notify";
 
@@ -40,6 +40,16 @@ export default [
         handler: [
             async (req: Request, res: Response) => {
                 const newApartments = await sendEmail(req.params.email, "Test");
+                res.status(200).send(newApartments);
+            },
+        ],
+    },
+    {
+        path: "/api/v1/re-send-all/:email",
+        method: "get",
+        handler: [
+            async (req: Request, res: Response) => {
+                const newApartments = await renotifyUser(req);
                 res.status(200).send(newApartments);
             },
         ],
