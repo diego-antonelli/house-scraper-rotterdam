@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.14.1
+version: v1.19.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -18,3 +18,5 @@ patch:
         patched: '2020-05-20T17:58:26.635Z'
     - pm2 > cli-tableau > mocha > yargs-unparser > lodash:
         patched: '2020-05-20T17:58:26.635Z'
+    - pm2 > vizion > async > lodash:
+        patched: '2021-03-07T18:03:03.623Z'
