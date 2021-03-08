@@ -55,7 +55,7 @@
     "request-promise": "^4.2.5",
     "tsc-watch": "^4.2.7",
     "ts-loader": "^8.0.4",
-    "website-scraper": "^4.2.1",
+    "website-scraper": "^4.2.3",
     "snyk": "^1.474.0"
   },
   "scripts": {

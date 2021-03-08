@@ -1,4 +1,4 @@
-import { JSONathomevastgoed, PROVIDERS, Provider, Result, CITY, MIN_PRICE } from "./providers";
+import { JSONathomevastgoed, PROVIDERS, Provider, Result, CITY, MIN_PRICE, MIN_PRICE_SALE } from "./providers";
 import cheerio from "cheerio";
 import scrapper from "website-scraper";
 import { deleteFolderRecursive } from "./utils";
@@ -195,7 +195,15 @@ export function scrapeWebsite(website: keyof Provider, full = false, sale = fals
                                             price: newPrice,
                                             images,
                                             url: normalizeUrl(url, WEBSITE_CONFIG) || "",
-                                            type: sale ? "sale" : "rent",
+                                            type: !WEBSITE_CONFIG.noDiff
+                                                ? sale
+                                                    ? "sale"
+                                                    : "rent"
+                                                : newPrice > MIN_PRICE_SALE
+                                                ? "sale"
+                                                : newPrice < MIN_PRICE_SALE
+                                                ? "rent"
+                                                : "sale",
                                         });
                                     }
                                 }

@@ -306,6 +306,32 @@ export const PROVIDERS: Provider = {
             urlPrefixImage: "https:",
         },
     },
+    dwmmakelaardij: {
+        url: "https://dwmmakelaardij.nl/aanbod/?term=48&orderby=date&order=desc",
+        urlSale: "https://dwmmakelaardij.nl/aanbod/?term=42&orderby=date&order=desc",
+        filters: {
+            item: "article",
+            title: ".entry-title a",
+            address: ".entry-excerpt",
+            neighborhood: "",
+            price: ".entry-excerpt strong",
+            url: ".entry-title a",
+            images: ".post-thumbnail-rollover img",
+        },
+    },
+    tw3: {
+        url: "https://tw3.nl/aanbod/",
+        filters: {
+            item: ".overviewblock",
+            title: ".postdetails-title",
+            address: ".postdetails-title",
+            neighborhood: "",
+            price: ".postdetails-price",
+            url: ".addpadding-t--s a",
+            images: "",
+        },
+        noDiff: true,
+    },
 };
 
 export interface Provider {
@@ -328,6 +354,7 @@ export interface Provider {
             urlPrefixImage?: string;
             imageAttr?: string;
         };
+        noDiff?: boolean;
     };
 }
 
