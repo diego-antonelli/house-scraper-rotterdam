@@ -31,12 +31,12 @@ const server = http.createServer(router);
 (async () => {
     await Database.connect();
 
-    const taskRent = schedule("0 6,8,10,12,14,16,18,20,22 * * *", async () => {
+    const taskRent = schedule("6 6,10,14,18,22 * * *", async () => {
         console.log("JOB: Running automatic hourly import for rents");
         await importHouses("rent");
         console.log("JOB: DONE");
     });
-    const taskSale = schedule("5 6,8,10,12,14,16,18,20,22 * * *", async () => {
+    const taskSale = schedule("3 6,10,14,18,22 * * *", async () => {
         console.log("JOB: Running automatic hourly import for sales");
         await importHouses("sale");
         console.log("JOB: DONE");

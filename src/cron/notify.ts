@@ -23,7 +23,7 @@ const transporter = createTransport({
     },
 });
 
-export async function sendEmail(to: string, apartments: string) {
+export async function sendEmail(to: string, apartments: string): Promise<{ result: boolean }> {
     const mailOptions = {
         from: process.env.SMTP_EMAIL,
         to,
@@ -39,10 +39,12 @@ The scraper`,
         try {
             await transporter.sendMail(mailOptions);
             console.log(`Email successfully sent to ${to}`);
+            return { result: true };
         } catch (e) {
             console.error(`Error sending email to ${to}`, e);
         }
     }
+    return { result: false };
 }
 
 export async function notifyUsersByPreference(newApartments: Result[], type: "rent" | "sale") {
