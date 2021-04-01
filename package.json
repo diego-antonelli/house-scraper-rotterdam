@@ -56,7 +56,7 @@
     "tsc-watch": "^4.2.7",
     "ts-loader": "^8.0.4",
     "website-scraper": "^4.2.3",
-    "snyk": "^1.474.0"
+    "snyk": "^1.518.0"
   },
   "scripts": {
     "format": "npx prettier -c --write \"./src/**/*.[j|t]s\"",
